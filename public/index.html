@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Family Chore Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand__logo" aria-hidden="true">🏠</span>
+        <div>
+          <h1>Family Chore Planner</h1>
+          <p class="brand__tagline">Keep every household on track – together.</p>
+        </div>
+      </div>
+      <nav class="header-actions">
+        <button id="logoutButton" class="ghost" hidden>Log out</button>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section id="authContainer" class="card auth">
+        <div class="auth__tabs" role="tablist">
+          <button id="loginTab" class="auth__tab active" role="tab" aria-controls="loginPanel">
+            Log in
+          </button>
+          <button id="registerTab" class="auth__tab" role="tab" aria-controls="registerPanel">
+            Create family account
+          </button>
+        </div>
+
+        <div id="loginPanel" class="auth__panel" role="tabpanel">
+          <h2>Welcome back!</h2>
+          <p class="auth__intro">
+            Sign in to see your family dashboard, update chores, and celebrate wins.
+          </p>
+          <form id="loginForm" class="form-grid">
+            <label class="full">
+              Email
+              <input type="email" id="loginEmail" autocomplete="email" required />
+            </label>
+            <label class="full">
+              Password
+              <input type="password" id="loginPassword" autocomplete="current-password" required />
+            </label>
+            <button type="submit" class="primary full">Log in</button>
+          </form>
+        </div>
+
+        <div id="registerPanel" class="auth__panel hidden" role="tabpanel" aria-hidden="true">
+          <h2>Create your family hub</h2>
+          <p class="auth__intro">
+            Add your household and invite parents or kids so everyone knows what to do next.
+          </p>
+          <form id="registerForm" class="form-grid">
+            <label>
+              Family name
+              <input type="text" id="registerFamilyName" required placeholder="The Garcia Crew" />
+            </label>
+            <label>
+              Parent name
+              <input type="text" id="registerParentName" required placeholder="Jordan" />
+            </label>
+            <label class="full">
+              Email
+              <input type="email" id="registerEmail" required autocomplete="email" />
+            </label>
+            <label class="full">
+              Password
+              <input type="password" id="registerPassword" required minlength="8" autocomplete="new-password" />
+            </label>
+            <button type="submit" class="primary full">Create account</button>
+          </form>
+        </div>
+        <p id="authMessage" class="auth__message" role="alert" hidden></p>
+      </section>
+
+      <section id="dashboardContainer" class="dashboard hidden">
+        <section class="card welcome">
+          <div>
+            <h2 id="familyGreeting">Welcome!</h2>
+            <p class="welcome__copy">
+              Organize chores, assign tasks, and track progress for every parent and kid in your household.
+            </p>
+          </div>
+          <aside class="suggestion" id="suggestionBox"></aside>
+        </section>
+
+        <section class="dashboard__grid">
+          <section class="card stats">
+            <header class="card__header">
+              <h3>Today's snapshot</h3>
+            </header>
+            <dl class="stat-list" id="statList"></dl>
+          </section>
+
+          <section class="card">
+            <header class="card__header">
+              <h3>Add a family member</h3>
+            </header>
+            <form id="memberForm" class="form-grid">
+              <label>
+                Name
+                <input type="text" id="memberName" placeholder="e.g. Alex" required />
+              </label>
+              <label>
+                Role
+                <select id="memberRole" required>
+                  <option value="parent">Parent</option>
+                  <option value="kid">Kid</option>
+                </select>
+              </label>
+              <button type="submit" class="secondary full">Add member</button>
+            </form>
+            <ul id="memberList" class="member-list"></ul>
+          </section>
+
+          <section class="card">
+            <header class="card__header">
+              <h3>Create a chore</h3>
+            </header>
+            <form id="choreForm" class="form-grid">
+              <label class="full">
+                Title
+                <input type="text" id="choreTitle" placeholder="e.g. Tidy your room" required />
+              </label>
+              <label class="full">
+                Description
+                <textarea id="choreDescription" rows="2" placeholder="Add steps, notes, or reminders"></textarea>
+              </label>
+              <label>
+                Assign to
+                <select id="choreAssignee"></select>
+              </label>
+              <label>
+                Due date
+                <input type="date" id="choreDueDate" />
+              </label>
+              <label>
+                Points
+                <input type="number" id="chorePoints" min="0" max="100" value="5" />
+              </label>
+              <button type="submit" class="primary full">Add chore</button>
+            </form>
+          </section>
+        </section>
+
+        <section class="card">
+          <header class="card__header">
+            <div>
+              <h3>Chore board</h3>
+              <p class="card__subtitle">Filter chores by status or family member to focus your day.</p>
+            </div>
+            <div class="filters">
+              <label>
+                Status
+                <select id="filterStatus">
+                  <option value="all">All</option>
+                  <option value="pending">Not started</option>
+                  <option value="in_progress">In progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </label>
+              <label>
+                Member
+                <select id="filterAssignee">
+                  <option value="all">Everyone</option>
+                </select>
+              </label>
+              <label class="search">
+                <span class="sr-only">Search</span>
+                <input type="search" id="filterSearch" placeholder="Search chores" />
+              </label>
+            </div>
+          </header>
+          <div id="choreList" class="chore-list"></div>
+        </section>
+
+        <section class="card">
+          <header class="card__header">
+            <h3>Leaderboard</h3>
+            <p class="card__subtitle">Celebrate the kids (and parents!) finishing the most chores.</p>
+          </header>
+          <table class="leaderboard">
+            <thead>
+              <tr>
+                <th>Family member</th>
+                <th>Completed chores</th>
+                <th>Points</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody"></tbody>
+          </table>
+        </section>
+      </section>
+    </main>
+
+    <template id="choreTemplate">
+      <article class="chore-card">
+        <header class="chore-card__header">
+          <div>
+            <h4 class="chore-card__title"></h4>
+            <p class="chore-card__meta"></p>
+          </div>
+          <select class="chore-card__status">
+            <option value="pending">Not started</option>
+            <option value="in_progress">In progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </header>
+        <p class="chore-card__description"></p>
+        <footer class="chore-card__footer">
+          <button class="link mark-complete">Mark complete</button>
+          <button class="link danger delete-chore">Delete</button>
+        </footer>
+      </article>
+    </template>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
